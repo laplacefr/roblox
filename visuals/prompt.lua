@@ -1,5 +1,3 @@
-wait(5)
-
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -75,7 +73,7 @@ local dialogueText = Instance.new("TextLabel")
 dialogueText.Size = UDim2.new(1, -20, 1, -20)
 dialogueText.Position = UDim2.new(0, 10, 0, 10)
 dialogueText.BackgroundTransparency = 1
-dialogueText.Text = "Welcome! Scripts loaded successfully."
+dialogueText.Text = "Welcome! Scripts loaded successfully. 2"
 dialogueText.TextColor3 = Color3.new(1, 1, 1)
 dialogueText.TextScaled = true
 dialogueText.Font = Enum.Font.SourceSans
