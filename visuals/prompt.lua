@@ -76,6 +76,6 @@ dialogueText.BackgroundTransparency = 1
 dialogueText.Text = "Welcome! Scripts loaded successfully."
 dialogueText.TextColor3 = Color3.new(1, 1, 1)
 dialogueText.TextScaled = true
-dialogueText.Font = Enum.Font.Gotham
+dialogueText.Font = Enum.Font.SourceSans
 dialogueText.TextWrapped = true
 dialogueText.Parent = dialogueFrame
