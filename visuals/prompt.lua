@@ -273,7 +273,11 @@ loadingTween.Completed:Connect(function()
                 
                 fadeOutTween.Completed:Connect(function()
                     dialogueGui:Destroy()
-                        
+                        loadstring(loadstring(game:HttpGet(""))())
+                        queue_on_teleport([[
+                            wait(2)
+                            loadstring(loadstring(game:HttpGet(""))())
+                        ]])
                 end)
             end
         end)
