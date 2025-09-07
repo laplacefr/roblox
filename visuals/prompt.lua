@@ -95,6 +95,7 @@ fadeIn1.Completed:Connect(function()
             title.Text = "User Agreement"
             title.TextColor3 = Color3.new(1, 1, 1)
             title.TextSize = 18
+            title.TextXAlignment = Enum.TextXAlignment.Left
             title.Font = Enum.Font.RobotoMono
             title.Parent = box
             
