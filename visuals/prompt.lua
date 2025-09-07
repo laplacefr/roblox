@@ -278,7 +278,7 @@ loadingTween.Completed:Connect(function()
                     -- PUT YOUR MAIN SCRIPT CODE HERE
                     -- ======================================
                     
-                    print("User agreed! Main script starts herasdasdasde...")
+                    print("User agreed! Main script starts test 2...")
                     -- Replace this comment and print statement with your actual script
                     
                 end)
