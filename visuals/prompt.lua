@@ -7,7 +7,7 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "LoadingScreen"
-screenGui.DisplayOrder = 100
+screenGui.DisplayOrder = 100000
 screenGui.IgnoreGuiInset = true
 screenGui.Parent = playerGui
 
@@ -126,7 +126,7 @@ loadingTween.Completed:Connect(function()
         
         local dialogueGui = Instance.new("ScreenGui")
         dialogueGui.Name = "DialogueScreen"
-        dialogueGui.DisplayOrder = 99
+        dialogueGui.DisplayOrder = 100000
         dialogueGui.Parent = playerGui
         
         local dialogueBox = Instance.new("Frame")
