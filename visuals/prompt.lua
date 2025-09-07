@@ -175,7 +175,7 @@ loadingTween.Completed:Connect(function()
         agreeButton.Text = "Agree"
         agreeButton.TextColor3 = Color3.new(1, 1, 1)
         agreeButton.TextTransparency = 1
-        agreeButton.TextSize = 12
+        agreeButton.TextSize = 8
         agreeButton.Font = Enum.Font.RobotoMono
         agreeButton.Parent = dialogueBox
         
