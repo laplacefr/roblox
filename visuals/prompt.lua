@@ -58,29 +58,77 @@ local loadingTween = TweenService:Create(
 loadingTween:Play()
 
 loadingTween.Completed:Connect(function()
-    screenGui:Destroy()
+    local fadeOutTween = TweenService:Create(
+        background,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {BackgroundTransparency = 1}
+    )
     
-    local dialogueGui = Instance.new("ScreenGui")
-    dialogueGui.Name = "DialogueScreen"
-    dialogueGui.DisplayOrder = 99
-    dialogueGui.Parent = playerGui
+    local titleFadeOut = TweenService:Create(
+        title,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {TextTransparency = 1}
+    )
     
-    local dialogueBox = Instance.new("Frame")
-    dialogueBox.Size = UDim2.new(0, 200, 0, 80)
-    dialogueBox.Position = UDim2.new(0.5, -100, 0.7, -40)
-    dialogueBox.BackgroundColor3 = Color3.new(0, 0, 0)
-    dialogueBox.BackgroundTransparency = 0.2
-    dialogueBox.BorderSizePixel = 1
-    dialogueBox.BorderColor3 = Color3.new(1, 1, 1)
-    dialogueBox.Parent = dialogueGui
+    local frameFadeOut = TweenService:Create(
+        loadingFrame,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {BackgroundTransparency = 1}
+    )
     
-    local dialogueText = Instance.new("TextLabel")
-    dialogueText.Size = UDim2.new(1, -20, 1, -20)
-    dialogueText.Position = UDim2.new(0, 10, 0, 10)
-    dialogueText.BackgroundTransparency = 1
-    dialogueText.Text = "Test 1"
-    dialogueText.TextColor3 = Color3.new(1, 1, 1)
-    dialogueText.TextScaled = true
-    dialogueText.Font = Enum.Font.Gotham
-    dialogueText.Parent = dialogueBox
+    local barFadeOut = TweenService:Create(
+        loadingBar,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {BackgroundTransparency = 1}
+    )
+    
+    fadeOutTween:Play()
+    titleFadeOut:Play()
+    frameFadeOut:Play()
+    barFadeOut:Play()
+    
+    fadeOutTween.Completed:Connect(function()
+        screenGui:Destroy()
+        
+        local dialogueGui = Instance.new("ScreenGui")
+        dialogueGui.Name = "DialogueScreen"
+        dialogueGui.DisplayOrder = 99
+        dialogueGui.Parent = playerGui
+        
+        local dialogueBox = Instance.new("Frame")
+        dialogueBox.Size = UDim2.new(0, 200, 0, 80)
+        dialogueBox.Position = UDim2.new(0.5, -100, 0.7, -40)
+        dialogueBox.BackgroundColor3 = Color3.new(0, 0, 0)
+        dialogueBox.BackgroundTransparency = 1
+        dialogueBox.BorderSizePixel = 1
+        dialogueBox.BorderColor3 = Color3.new(1, 1, 1)
+        dialogueBox.BorderMode = Enum.BorderMode.Inset
+        dialogueBox.Parent = dialogueGui
+        
+        local dialogueText = Instance.new("TextLabel")
+        dialogueText.Size = UDim2.new(1, -20, 1, -20)
+        dialogueText.Position = UDim2.new(0, 10, 0, 10)
+        dialogueText.BackgroundTransparency = 1
+        dialogueText.Text = "Test 1"
+        dialogueText.TextColor3 = Color3.new(1, 1, 1)
+        dialogueText.TextTransparency = 1
+        dialogueText.TextScaled = true
+        dialogueText.Font = Enum.Font.Gotham
+        dialogueText.Parent = dialogueBox
+        
+        local dialogueFadeIn = TweenService:Create(
+            dialogueBox,
+            TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {BackgroundTransparency = 0.2}
+        )
+        
+        local textFadeIn = TweenService:Create(
+            dialogueText,
+            TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0}
+        )
+        
+        dialogueFadeIn:Play()
+        textFadeIn:Play()
+    end)
 end)
