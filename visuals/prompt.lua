@@ -109,7 +109,7 @@ loadingTween.Completed:Connect(function()
         dialogueText.Size = UDim2.new(1, -20, 1, -20)
         dialogueText.Position = UDim2.new(0, 10, 0, 10)
         dialogueText.BackgroundTransparency = 1
-        dialogueText.Text = "Test 1"
+        dialogueText.Text = "Test 2"
         dialogueText.TextColor3 = Color3.new(1, 1, 1)
         dialogueText.TextTransparency = 1
         dialogueText.TextScaled = true
