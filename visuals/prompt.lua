@@ -1,166 +1,282 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
-local loadingGui = Instance.new("ScreenGui")
-loadingGui.DisplayOrder = 99999
-loadingGui.Parent = playerGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LoadingScreen"
+screenGui.DisplayOrder = 100
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = playerGui
 
-local backdrop = Instance.new("Frame")
-backdrop.Size = UDim2.new(1, 0, 1, 0)
-backdrop.Position = UDim2.new(0, 0, 0, 0)  -- Ensure it starts at (0,0)
-backdrop.BackgroundColor3 = Color3.new(0, 0, 0)
-backdrop.BackgroundTransparency = 1
-backdrop.BorderSizePixel = 0
-backdrop.Parent = loadingGui
+local background = Instance.new("Frame")
+background.Size = UDim2.new(1, 0, 1, 0)
+background.Position = UDim2.new(0, 0, 0, 0)
+background.BackgroundColor3 = Color3.new(0, 0, 0)
+background.BackgroundTransparency = 1
+background.BorderSizePixel = 0
+background.Parent = screenGui
 
-local loadContainer = Instance.new("Frame")
-loadContainer.Size = UDim2.new(0, 400, 0, 120)
-loadContainer.Position = UDim2.new(0.5, -200, 0.5, -60)
-loadContainer.BackgroundTransparency = 1
-loadContainer.Parent = backdrop
+local container = Instance.new("Frame")
+container.Size = UDim2.new(0, 400, 0, 120)
+container.Position = UDim2.new(0.5, -200, 0.5, -60)
+container.BackgroundTransparency = 1
+container.Parent = background
 
-local loadTitle = Instance.new("TextLabel")
-loadTitle.Size = UDim2.new(1, 0, 0, 50)
-loadTitle.Position = UDim2.new(0, 0, 0, 0)
-loadTitle.BackgroundTransparency = 1
-loadTitle.Text = "Laplace's Scripts: Grow a Garden"
-loadTitle.TextColor3 = Color3.new(1, 1, 1)
-loadTitle.TextTransparency = 1
-loadTitle.TextScaled = true
-loadTitle.Font = Enum.Font.GothamBold
-loadTitle.Parent = loadContainer
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 50)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Laplace's Scripts: Grow a Garden"
+title.TextColor3 = Color3.new(1, 1, 1)
+title.TextTransparency = 1
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.Parent = container
 
-local barBackground = Instance.new("Frame")
-barBackground.Size = UDim2.new(1, 0, 0, 6)
-barBackground.Position = UDim2.new(0, 0, 0, 70)
-barBackground.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-barBackground.BackgroundTransparency = 1
-barBackground.BorderSizePixel = 0
-barBackground.Parent = loadContainer
+local loadingFrame = Instance.new("Frame")
+loadingFrame.Size = UDim2.new(1, 0, 0, 6)
+loadingFrame.Position = UDim2.new(0, 0, 0, 70)
+loadingFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+loadingFrame.BackgroundTransparency = 1
+loadingFrame.BorderSizePixel = 0
+loadingFrame.Parent = container
 
-local progressBar = Instance.new("Frame")
-progressBar.Size = UDim2.new(0, 0, 1, 0)
-progressBar.BackgroundColor3 = Color3.new(0.3, 0.7, 1)
-progressBar.BackgroundTransparency = 1
-progressBar.BorderSizePixel = 0
-progressBar.Parent = barBackground
+local loadingBar = Instance.new("Frame")
+loadingBar.Size = UDim2.new(0, 0, 1, 0)
+loadingBar.Position = UDim2.new(0, 0, 0, 0)
+loadingBar.BackgroundColor3 = Color3.new(0.3, 0.7, 1)
+loadingBar.BackgroundTransparency = 1
+loadingBar.BorderSizePixel = 0
+loadingBar.Parent = loadingFrame
 
-local fadeIn1 = TweenService:Create(backdrop, TweenInfo.new(0.5), {BackgroundTransparency = 0})  -- Changed to 0 for full coverage
-local fadeIn2 = TweenService:Create(loadTitle, TweenInfo.new(0.5), {TextTransparency = 0})
-local fadeIn3 = TweenService:Create(barBackground, TweenInfo.new(0.5), {BackgroundTransparency = 0})
-local fadeIn4 = TweenService:Create(progressBar, TweenInfo.new(0.5), {BackgroundTransparency = 0})
+local fadeInTween = TweenService:Create(
+    background,
+    TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+    {BackgroundTransparency = 0.3}
+)
 
-fadeIn1:Play()
-fadeIn2:Play()
-fadeIn3:Play()
-fadeIn4:Play()
+local titleFadeIn = TweenService:Create(
+    title,
+    TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+    {TextTransparency = 0}
+)
 
-fadeIn1.Completed:Connect(function()
-    local loadProgress = TweenService:Create(progressBar, TweenInfo.new(5), {Size = UDim2.new(1, 0, 1, 0)})
-    loadProgress:Play()
+local frameFadeIn = TweenService:Create(
+    loadingFrame,
+    TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+    {BackgroundTransparency = 0}
+)
+
+local barFadeIn = TweenService:Create(
+    loadingBar,
+    TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+    {BackgroundTransparency = 0}
+)
+
+fadeInTween:Play()
+titleFadeIn:Play()
+frameFadeIn:Play()
+barFadeIn:Play()
+
+fadeInTween.Completed:Connect(function()
+
+local loadingTween = TweenService:Create(
+    loadingBar,
+    TweenInfo.new(5, Enum.EasingStyle.Linear),
+    {Size = UDim2.new(1, 0, 1, 0)}
+)
+
+loadingTween:Play()
+
+loadingTween.Completed:Connect(function()
+    local fadeOutTween = TweenService:Create(
+        background,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {BackgroundTransparency = 1}
+    )
     
-    loadProgress.Completed:Connect(function()
-        local fadeOut1 = TweenService:Create(backdrop, TweenInfo.new(0.5), {BackgroundTransparency = 1})
-        local fadeOut2 = TweenService:Create(loadTitle, TweenInfo.new(0.5), {TextTransparency = 1})
-        local fadeOut3 = TweenService:Create(barBackground, TweenInfo.new(0.5), {BackgroundTransparency = 1})
-        local fadeOut4 = TweenService:Create(progressBar, TweenInfo.new(0.5), {BackgroundTransparency = 1})
+    local titleFadeOut = TweenService:Create(
+        title,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {TextTransparency = 1}
+    )
+    
+    local frameFadeOut = TweenService:Create(
+        loadingFrame,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {BackgroundTransparency = 1}
+    )
+    
+    local barFadeOut = TweenService:Create(
+        loadingBar,
+        TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+        {BackgroundTransparency = 1}
+    )
+    
+    fadeOutTween:Play()
+    titleFadeOut:Play()
+    frameFadeOut:Play()
+    barFadeOut:Play()
+    
+    fadeOutTween.Completed:Connect(function()
+        screenGui:Destroy()
         
-        fadeOut1:Play()
-        fadeOut2:Play()
-        fadeOut3:Play()
-        fadeOut4:Play()
+        local dialogueGui = Instance.new("ScreenGui")
+        dialogueGui.Name = "DialogueScreen"
+        dialogueGui.DisplayOrder = 99
+        dialogueGui.Parent = playerGui
         
-        fadeOut1.Completed:Connect(function()
-            loadingGui:Destroy()
-            
-            local gui = Instance.new("ScreenGui")
-            gui.DisplayOrder = 99999
-            gui.Parent = playerGui
-            
-            -- Full screen backdrop for the dialogue
-            local fullBackdrop = Instance.new("Frame")
-            fullBackdrop.Size = UDim2.new(1, 0, 1, 0)
-            fullBackdrop.Position = UDim2.new(0, 0, 0, 0)
-            fullBackdrop.BackgroundColor3 = Color3.new(0, 0, 0)
-            fullBackdrop.BackgroundTransparency = 0.3
-            fullBackdrop.BorderSizePixel = 0
-            fullBackdrop.Parent = gui
-            
-            local box = Instance.new("Frame")
-            box.Size = UDim2.new(0, 300, 0, 200)
-            box.Position = UDim2.new(0.5, -150, 0.5, -100)
-            box.BackgroundColor3 = Color3.new(0, 0, 0)
-            box.BackgroundTransparency = 0.2
-            box.BorderSizePixel = 2
-            box.BorderColor3 = Color3.new(1, 1, 1)
-            box.Parent = fullBackdrop  -- Parent to the backdrop instead of gui directly
-            
-            local title = Instance.new("TextLabel")
-            title.Size = UDim2.new(1, -10, 0, 30)
-            title.Position = UDim2.new(0, 5, 0, 5)
-            title.BackgroundTransparency = 1
-            title.Text = "User Agreement"
-            title.TextColor3 = Color3.new(1, 1, 1)
-            title.TextSize = 18
-            title.TextXAlignment = Enum.TextXAlignment.Left
-            title.Font = Enum.Font.RobotoMono
-            title.Parent = box
-            
-            local message = Instance.new("TextLabel")
-            message.Size = UDim2.new(1, -10, 0, 120)
-            message.Position = UDim2.new(0, 5, 0, 40)
-            message.BackgroundTransparency = 1
-            message.Text = "Hereby will need your agreement to properly use of my script and must not be used for bad intentions and any other ill motives. The script also need you to be in a good server where it will work at best, do not worry you will be automatically joined to a server with the best server version and that is already patched by me or other users that uses this script. If you agreed of the use and its concepts please proceed to click the button below."
-            message.TextColor3 = Color3.new(0.9, 0.9, 0.9)
-            message.TextSize = 12
-            message.TextWrapped = true
-            message.TextXAlignment = Enum.TextXAlignment.Left  -- Added left alignment
-            message.TextYAlignment = Enum.TextYAlignment.Top   -- Added top alignment for better text layout
-            message.Font = Enum.Font.RobotoMono
-            message.Parent = box
-            
-            local button = Instance.new("TextButton")
-            button.Size = UDim2.new(0, 200, 0, 30)
-            button.Position = UDim2.new(0, 50, 0, 165)
-            button.BackgroundColor3 = Color3.new(1, 1, 1)
-            button.BackgroundTransparency = 0.8
-            button.BorderSizePixel = 1
-            button.BorderColor3 = Color3.new(1, 1, 1)
-            button.Text = "Agree"
-            button.TextColor3 = Color3.new(1, 1, 1)
-            button.TextSize = 14
-            button.Font = Enum.Font.RobotoMono
-            button.Parent = box
-            
-            local clicked = false
-            
-            button.MouseEnter:Connect(function()
-                if not clicked then
-                    button.BackgroundTransparency = 0.5
-                    button.TextColor3 = Color3.new(0, 0, 0)
-                end
-            end)
-            
-            button.MouseLeave:Connect(function()
-                if not clicked then
-                    button.BackgroundTransparency = 0.8
-                    button.TextColor3 = Color3.new(1, 1, 1)
-                end
-            end)
-            
-            button.MouseButton1Click:Connect(function()
-                if not clicked then
-                    clicked = true
-                    button.Text = "Agreed"
-                    button.BackgroundTransparency = 0.3
-                    button.TextColor3 = Color3.new(0, 0, 0)
-                    wait(2)
-                    gui:Destroy()
-                end
-            end)
+        local dialogueBox = Instance.new("Frame")
+        dialogueBox.Size = UDim2.new(0, 500, 0, 300)
+        dialogueBox.Position = UDim2.new(0.5, -250, 0.5, -150)
+        dialogueBox.BackgroundColor3 = Color3.new(0, 0, 0)
+        dialogueBox.BackgroundTransparency = 1
+        dialogueBox.BorderSizePixel = 2
+        dialogueBox.BorderColor3 = Color3.new(1, 1, 1)
+        dialogueBox.BorderMode = Enum.BorderMode.Inset
+        dialogueBox.Parent = dialogueGui
+        
+        local titleLabel = Instance.new("TextLabel")
+        titleLabel.Size = UDim2.new(1, -40, 0, 40)
+        titleLabel.Position = UDim2.new(0, 20, 0, 20)
+        titleLabel.BackgroundTransparency = 1
+        titleLabel.Text = "User Agreement"
+        titleLabel.TextColor3 = Color3.new(1, 1, 1)
+        titleLabel.TextTransparency = 1
+        titleLabel.TextSize = 24
+        titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+        titleLabel.Font = Enum.Font.RobotoMono
+        titleLabel.Parent = dialogueBox
+        
+        local messageLabel = Instance.new("TextLabel")
+        messageLabel.Size = UDim2.new(1, -40, 0, 180)
+        messageLabel.Position = UDim2.new(0, 20, 0, 70)
+        messageLabel.BackgroundTransparency = 1
+        messageLabel.Text = "Hereby will need your agreement to properly use of my script and must not be used for bad intentions and any other ill motives. The script also need you to be in a good server where it will work at best, do not worry you will be automatically joined to a server with the best server version and that is already patched by me or other users that uses this script. If you agreed of the use and its concepts please proceed to click the button below."
+        messageLabel.TextColor3 = Color3.new(0.9, 0.9, 0.9)
+        messageLabel.TextTransparency = 1
+        messageLabel.TextSize = 14
+        messageLabel.TextWrapped = true
+        messageLabel.TextXAlignment = Enum.TextXAlignment.Left
+        messageLabel.TextYAlignment = Enum.TextYAlignment.Top
+        messageLabel.Font = Enum.Font.RobotoMono
+        messageLabel.Parent = dialogueBox
+        
+        local agreeButton = Instance.new("TextButton")
+        agreeButton.Size = UDim2.new(0, 120, 0, 35)
+        agreeButton.Position = UDim2.new(0.5, -60, 1, -55)
+        agreeButton.BackgroundColor3 = Color3.new(1, 1, 1)
+        agreeButton.BackgroundTransparency = 1
+        agreeButton.BorderSizePixel = 2
+        agreeButton.BorderColor3 = Color3.new(1, 1, 1)
+        agreeButton.Text = "Agree"
+        agreeButton.TextColor3 = Color3.new(1, 1, 1)
+        agreeButton.TextTransparency = 1
+        agreeButton.TextSize = 16
+        agreeButton.Font = Enum.Font.RobotoMono
+        agreeButton.Parent = dialogueBox
+        
+        local dialogueFadeIn = TweenService:Create(
+            dialogueBox,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {BackgroundTransparency = 0.1}
+        )
+        
+        local titleFadeIn = TweenService:Create(
+            titleLabel,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0}
+        )
+        
+        local messageFadeIn = TweenService:Create(
+            messageLabel,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0}
+        )
+        
+        local buttonFadeIn = TweenService:Create(
+            agreeButton,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0, BackgroundTransparency = 0.9}
+        )
+        
+        dialogueFadeIn:Play()
+        titleFadeIn:Play()
+        messageFadeIn:Play()
+        buttonFadeIn:Play()
+        
+        local buttonClicked = false
+        
+        agreeButton.MouseEnter:Connect(function()
+            if not buttonClicked then
+                TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+                    {BackgroundTransparency = 0.7, TextColor3 = Color3.new(0, 0, 0)}
+                ):Play()
+            end
+        end)
+        
+        agreeButton.MouseLeave:Connect(function()
+            if not buttonClicked then
+                TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+                    {BackgroundTransparency = 0.9, TextColor3 = Color3.new(1, 1, 1)}
+                ):Play()
+            end
+        end)
+        
+        agreeButton.MouseButton1Click:Connect(function()
+            if not buttonClicked then
+                buttonClicked = true
+                agreeButton.Text = "Agreed"
+                TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.3, Enum.EasingStyle.Back),
+                    {BackgroundTransparency = 0.5, TextColor3 = Color3.new(0, 0, 0)}
+                ):Play()
+                
+                wait(1)
+                
+                local fadeOutTween = TweenService:Create(
+                    dialogueBox,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {BackgroundTransparency = 1}
+                )
+                
+                local titleFadeOut = TweenService:Create(
+                    titleLabel,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {TextTransparency = 1}
+                )
+                
+                local messageFadeOut = TweenService:Create(
+                    messageLabel,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {TextTransparency = 1}
+                )
+                
+                local buttonFadeOut = TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {TextTransparency = 1, BackgroundTransparency = 1}
+                )
+                
+                fadeOutTween:Play()
+                titleFadeOut:Play()
+                messageFadeOut:Play()
+                buttonFadeOut:Play()
+                
+                fadeOutTween.Completed:Connect(function()
+                    dialogueGui:Destroy()
+                end)
+            end
         end)
     end)
+end)
+
 end)
