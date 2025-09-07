@@ -167,7 +167,7 @@ loadingTween.Completed:Connect(function()
         
         local agreeButton = Instance.new("TextButton")
         agreeButton.Size = UDim2.new(0, 120, 0, 35)
-        agreeButton.Position = UDim2.new(0.5, -60, 0, -50)
+        agreeButton.Position = UDim2.new(0.5, -60, 1, -55)
         agreeButton.BackgroundColor3 = Color3.new(1, 1, 1)
         agreeButton.BackgroundTransparency = 1
         agreeButton.BorderSizePixel = 2
@@ -273,14 +273,7 @@ loadingTween.Completed:Connect(function()
                 
                 fadeOutTween.Completed:Connect(function()
                     dialogueGui:Destroy()
-                    
-                    -- ======================================
-                    -- PUT YOUR MAIN SCRIPT CODE HERE
-                    -- ======================================
-                    
-                    print("User agreed! Main script starts test 4...")
-                    -- Replace this comment and print statement with your actual script
-                    
+                        
                 end)
             end
         end)
