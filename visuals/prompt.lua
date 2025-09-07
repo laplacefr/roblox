@@ -10,6 +10,7 @@ loadingGui.Parent = playerGui
 
 local backdrop = Instance.new("Frame")
 backdrop.Size = UDim2.new(1, 0, 1, 0)
+backdrop.Position = UDim2.new(0, 0, 0, 0)  -- Ensure it starts at (0,0)
 backdrop.BackgroundColor3 = Color3.new(0, 0, 0)
 backdrop.BackgroundTransparency = 1
 backdrop.BorderSizePixel = 0
@@ -47,7 +48,7 @@ progressBar.BackgroundTransparency = 1
 progressBar.BorderSizePixel = 0
 progressBar.Parent = barBackground
 
-local fadeIn1 = TweenService:Create(backdrop, TweenInfo.new(0.5), {BackgroundTransparency = 0.3})
+local fadeIn1 = TweenService:Create(backdrop, TweenInfo.new(0.5), {BackgroundTransparency = 0})  -- Changed to 0 for full coverage
 local fadeIn2 = TweenService:Create(loadTitle, TweenInfo.new(0.5), {TextTransparency = 0})
 local fadeIn3 = TweenService:Create(barBackground, TweenInfo.new(0.5), {BackgroundTransparency = 0})
 local fadeIn4 = TweenService:Create(progressBar, TweenInfo.new(0.5), {BackgroundTransparency = 0})
@@ -79,6 +80,15 @@ fadeIn1.Completed:Connect(function()
             gui.DisplayOrder = 99999
             gui.Parent = playerGui
             
+            -- Full screen backdrop for the dialogue
+            local fullBackdrop = Instance.new("Frame")
+            fullBackdrop.Size = UDim2.new(1, 0, 1, 0)
+            fullBackdrop.Position = UDim2.new(0, 0, 0, 0)
+            fullBackdrop.BackgroundColor3 = Color3.new(0, 0, 0)
+            fullBackdrop.BackgroundTransparency = 0.3
+            fullBackdrop.BorderSizePixel = 0
+            fullBackdrop.Parent = gui
+            
             local box = Instance.new("Frame")
             box.Size = UDim2.new(0, 300, 0, 200)
             box.Position = UDim2.new(0.5, -150, 0.5, -100)
@@ -86,7 +96,7 @@ fadeIn1.Completed:Connect(function()
             box.BackgroundTransparency = 0.2
             box.BorderSizePixel = 2
             box.BorderColor3 = Color3.new(1, 1, 1)
-            box.Parent = gui
+            box.Parent = fullBackdrop  -- Parent to the backdrop instead of gui directly
             
             local title = Instance.new("TextLabel")
             title.Size = UDim2.new(1, -10, 0, 30)
@@ -107,6 +117,8 @@ fadeIn1.Completed:Connect(function()
             message.TextColor3 = Color3.new(0.9, 0.9, 0.9)
             message.TextSize = 12
             message.TextWrapped = true
+            message.TextXAlignment = Enum.TextXAlignment.Left  -- Added left alignment
+            message.TextYAlignment = Enum.TextYAlignment.Top   -- Added top alignment for better text layout
             message.Font = Enum.Font.RobotoMono
             message.Parent = box
             
